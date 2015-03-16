@@ -1,0 +1,5 @@
+These 3-dimensional instances are for the Geometric Steiner minimum tree problem.
+
+The instances are generated from the coordinates of atoms in proteins, based on PDB files. The proteins used are: 1X0O, 2JZC, 3WCZ, 4OAA and 2OED. Five different configurations of the latter are used, the PDB files for these were provided by Wouter Boomsma from the Bioinformatics Centre at the University of Copenhagen. The instances based on these five configurations are identified by starting with 'W'.
+
+Two instances have been generated per PDB file: 1) where all atoms are included (identified by '_all') and 2) where some atoms are excluded. The atoms excluded in 2) are almost all the carbon atoms, all nitrogen atoms and some oxygen and sulfur atoms.

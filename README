@@ -1,0 +1,38 @@
+#############################################################
+##                   Bachelor Thesis                       ##
+##          Andreas E. Olsen, Stephan S. Lorenzen          ##
+##   Euclidean Steiner Minimal Trees in Three Dimension    ##
+#############################################################
+
+
+
+
+
+#############################################################
+## Building and installing CGAL                            ##
+#############################################################
+
+Running:
+
+ sudo apt-get install libcgal-dev
+
+will install v. 4.0.*
+Instead download newest (4.3) from CGAL webpage, and run
+
+ sudo tar xzf CGAL.4.3.tar.gz
+ cd CGAL.4.3/
+ sudo cmake .
+ sudo make
+ sudo make install
+
+Before running cmake, one may have to install some boost-packages:
+
+ # To install alot:
+ sudo apt-get install libboost1.49
+
+ # I only needed
+ sudo apt-get install libboost-system1.49
+
+Furthermore, ldconfig was needed:
+
+ sudo ldconfig

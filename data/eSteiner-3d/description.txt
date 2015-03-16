@@ -1,0 +1,1 @@
+The eSteiner-3D instances for the geometric 3-dimensional Steiner tree problem are obtained from the two-dimensional eSteiner instances by adding a randomly generated z-coordinate to each terminal. The z-coordinates lie between 0 and 1, and the terminals are thus located at random positions within the unit cube.
