@@ -502,17 +502,24 @@ void ESMT::findESMTSct(Delaunay &del,
   }
 
   if(verbose)
-    std::cout << "Components (faces) found: " << this->components.size() << std::endl;
+    std::cout << "Components (faces) found: "
+      // Add non-mst edges in this sum (otherwise this won't be total number of faces)
+	      << this->components.size()-this->edges.size()+del.getEdgesPtr()->size() << std::endl;
 #if(ESMT_COLLECT_STATS)
   while(this->stats.faces.size() < this->dim)
     this->stats.faces.push_back(0);
-  this->stats.faces[0]         = this->edges.size();
+  this->stats.faces[0]           = del.getEdgesPtr()->size(); // All edges from Delaunay
   this->stats.faces[this->dim-1] = this->simplices->size(); 
   if(verbose) {
     for(i = 0; i < this->stats.faces.size(); i++)
       std::cout << "  [" << i+2 << "]: " << this->stats.faces[i] << std::endl;
   }
 #endif  
+
+#if(ESMT_COLLECT_STATS)
+  this->stats.covered_faces = std::vector<unsigned int>(this->dim+2, 0);
+  this->stats.covered_faces[2] = this->edges.size();
+#endif
 
   // Now find smts.
   // "Covered" simplices when using b-tree, are simplices, which has ratio < 1,
@@ -585,9 +592,13 @@ void ESMT::findESMTSct(Delaunay &del,
       sst.bmst_length = bmst_length;
 #endif
       
-      if(c==ssit->map.size()-1)
+      if(c==ssit->map.size()-1) {
 	// Covered
 	this->smts.push_back(sst);
+#if(ESMT_COLLECT_STATS)
+	this->stats.covered_faces[ssit->map.size()]++;
+#endif	
+      }
       else
 	non_covered.push_back(sst);
     }
