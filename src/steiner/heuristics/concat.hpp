@@ -50,7 +50,7 @@ private:
 			      unsigned int sp,
 			      unsigned int j);
 
-  int curN;
+  //int curN; //Unused
   int topo_vec[CNMAX][2];
   bool do_clean_up;
 };

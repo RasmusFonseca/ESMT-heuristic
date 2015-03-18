@@ -70,7 +70,7 @@ double Utils::frand() {
   return (double)rand() / RAND_MAX;
 }
 
-void bDist(std::tr1::unordered_map<long, double> &b_tree,
+void bDist(std::unordered_map<long, double> &b_tree,
 	   std::vector<Edge> &edges, int org, int cur, int prev, double longest) {
   unsigned int i;
   unsigned long key = Edge::key(org,cur);
@@ -87,7 +87,7 @@ void bDist(std::tr1::unordered_map<long, double> &b_tree,
   }
 }
 
-void Utils::constructBottleneckGraph(std::tr1::unordered_map<long, double> &b_tree,
+void Utils::constructBottleneckGraph(std::unordered_map<long, double> &b_tree,
 				     Graph &del, Graph &mst) {
   unsigned int i;
 

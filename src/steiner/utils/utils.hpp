@@ -2,7 +2,7 @@
 #define UTILS_H
 
 #include <vector>
-#include <tr1/unordered_map>
+#include <unordered_map>
 
 #include "steiner/graph.hpp"
 #include "steiner/steiner_tree.hpp"
@@ -41,7 +41,7 @@ namespace Utils {
    *                 (e.g. Delaunay). mst must be a subset of del.
    * @param mst      The MST for the gived del-graph.
    */
-  void constructBottleneckGraph(std::tr1::unordered_map<long, double> &b_graph,
+  void constructBottleneckGraph(std::unordered_map<long, double> &b_graph,
 				Graph &del, Graph &mst);
   
   /**

@@ -1,38 +1,69 @@
-#############################################################
-##                   Bachelor Thesis                       ##
-##          Andreas E. Olsen, Stephan S. Lorenzen          ##
-##   Euclidean Steiner Minimal Trees in Three Dimension    ##
-#############################################################
+# Heuristic for the Euclidean Steiner Minimal Tree in any dimension
+
+The Euclidean Steiner Minimal Tree (ESTP) problem seeks a network of minimal total edge length spanning a set of n terminal points while allowing for the insertion of additional points (Steiner points) to decrease the overall length of the network. 
+
+For a detailed description of this method, or if used in published research, please see 
+
+* [Euclidean Steiner Tree Heuristic in d-Space](http://dimacs11.cs.princeton.edu/workshop/OlsenLorenzenFonsecaWinter.pdf). A.E. Olsen, S.S. Lorenzen, R. Fonseca and P. Winter.
 
 
 
 
+# Compiling
 
-#############################################################
-## Building and installing CGAL                            ##
-#############################################################
+```
+$ cd src
+$ make
+```
 
-Running:
 
- sudo apt-get install libcgal-dev
+# Usage
 
-will install v. 4.0.*
-Instead download newest (4.3) from CGAL webpage, and run
 
- sudo tar xzf CGAL.4.3.tar.gz
- cd CGAL.4.3/
- sudo cmake .
- sudo make
- sudo make install
+```
+ esmt-heuristic esmt [options] <points>
+ esmt-heuristic test esmt [options] <points>
+ esmt-heuristic test sgh [options] <points>
 
-Before running cmake, one may have to install some boost-packages:
+ options:
+   -v           Verbose
+   -npo         Disable post optimisation
+   -nsc         Disable sub-graph concatenation
+   -sct         Redo concatenation, adding other, non-covered FSTs
+   -alg <name>  Sub-graph algorithm:
+                  NO  = Numerical optimisation
+                  RNO = Restricted numerical optimisation
+                  SP  = Simplex partitioning
+                  Default NO
+   -s           Seed for random generation of point sets.
+  # esmt only
+   -pt          Print resulting tree
+   -val         Validate the resulting tree
+  # test only
+   -nd          Do not include Delaunay tesselation in time measurement.
+   -cs          Collect extra statistics (no of simplices, etc.).
+   -out <path>  Output file for test results (CSV format).
+   -lt <sec>    Loop time
 
- # To install alot:
- sudo apt-get install libboost1.49
+ points:
+   -in <file name> <set name>          Read set <set name>
+                                       from file <file name>
+   -g <set name> <dim> <no of points>  Generate a point set with
+                                       the given number of points in
+                                       the given dimension.
+                                       Possible set names:
+                                           random, sausage, simplex, grid
+ points (test only):
+   -ina <file name>              Read all sets from file <file name>
+   -gn <set name> <dim> <no of points> <no of tests>
+                                 Generate the given number of
+                                 point set with the given
+                                 number of points in the given
+                                 dimension.
+```
 
- # I only needed
- sudo apt-get install libboost-system1.49
-
-Furthermore, ldconfig was needed:
-
- sudo ldconfig
+# Example
+```
+$ cd src
+$ ./esmt-heuristic esmt -in ../data/hard_instance/sausage_n16_d3.stp sausage_n16_d3
+```

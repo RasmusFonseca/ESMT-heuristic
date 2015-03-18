@@ -2,7 +2,7 @@
 #define ESMT_H
 
 #include <vector>
-#include <tr1/unordered_map>
+#include <unordered_map>
 
 #include "steiner/heuristics/subgraph_heuristic.hpp"
 #include "steiner/heuristics/concat.hpp"
@@ -392,7 +392,7 @@ private:
    * @param flag      A hashmap with flags for added faces
    */
   void findAllFaces(Utils::Delaunay::Simplex &simplex, ESMT::Subset &subset,
-		    std::tr1::unordered_map<unsigned long,bool> &flag);
+		    std::unordered_map<unsigned long,bool> &flag);
   
 
   ////////////////////////////////////////////////
@@ -445,7 +445,7 @@ private:
 
   /** Map showing if the edge i1,i2 is in the MST,
       where i1, i2 is indexes in this->points. */
-  std::tr1::unordered_map<unsigned long, bool> in_MST;
+  std::unordered_map<unsigned long, bool> in_MST;
   
   /** Stats object */
   Stats stats;

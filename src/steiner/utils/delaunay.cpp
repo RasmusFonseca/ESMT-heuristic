@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <iterator>
-#include <tr1/unordered_map>
+#include <unordered_map>
 
 #include "steiner/graph.hpp"
 #include "steiner/utils/delaunay.hpp"
@@ -72,7 +72,7 @@ void Utils::Delaunay::doParseOutputQHull(int d) {
   if(outfile.is_open()) {
     // Allocate needed resources:
     // - edge in MST flags
-    std::tr1::unordered_map<unsigned long, bool> flag;
+    std::unordered_map<unsigned long, bool> flag;
     // 1. Read all simplices
     int no_of_simplices;
     getline(outfile, buffer);
