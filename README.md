@@ -2,11 +2,9 @@
 
 The Euclidean Steiner Minimal Tree (ESTP) problem seeks a network of minimal total edge length spanning a set of n terminal points while allowing for the insertion of additional points (Steiner points) to decrease the overall length of the network. 
 
-For a detailed description of this method, or if used in published research, please see 
+This software uses a heuristic to find solutions to ESTP for probleminstances of any dimension and almost any size (easily solves for n>10000). For a detailed description of this method, or if used in published research, please see 
 
 * [Euclidean Steiner Tree Heuristic in d-Space](http://dimacs11.cs.princeton.edu/workshop/OlsenLorenzenFonsecaWinter.pdf). A.E. Olsen, S.S. Lorenzen, R. Fonseca and P. Winter.
-
-
 
 
 # Compiling
