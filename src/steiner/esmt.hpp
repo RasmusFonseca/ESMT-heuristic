@@ -84,8 +84,6 @@ public:
 
     // Delaunay
     unsigned int no_of_simplices;
-    // Faces
-    std::vector<unsigned int> faces;
     // Covered faces
     std::vector<unsigned int> covered_faces;
     // Sub-trees in queue
@@ -235,25 +233,6 @@ private:
 		bool post_optimise,
 		bool special_concat,
 		bool verbose = false);
-
-  /**
-   * Performs the ESMT algorithm using the special concatenation strategy.
-   * After having used only covered faces in concatenation, non-covered faces
-   * are added in order to try to reduce the overall length.
-   *
-   * @param del             A Delaunay triangulation structure
-   * @param sh              A pointer to a subgraph heuristic.
-   * @param concat_subgraphs   Determines wether subgraph concatenation should be
-   *                           done - NOT IMPLEMENTED YET.
-   * @param post_optimise      Determines wether post optimisation using Smith's
-   *                           should be applied
-   * @param verbose            If true, stats will be printed.
-   */
-  void findESMTSct(Utils::Delaunay &del,
-		   SubgraphHeuristic *sh,
-		   bool concat_subgraphs,
-		   bool post_optimise,
-		   bool verbose = false);
   
   /**
    * Performs the concatenation step of the algorithm.
@@ -383,18 +362,6 @@ private:
    */
   bool isInMST(int i0, int i1);
 
-  /**
-   * Finds all faces for the given simplex. Faces marked in flag will not
-   * be added. Faces will be added to this->components.
-   *
-   * @param simplex   The given simplex
-   * @param subset    The previous subset.
-   * @param flag      A hashmap with flags for added faces
-   */
-  void findAllFaces(Utils::Delaunay::Simplex &simplex, ESMT::Subset &subset,
-		    std::unordered_map<unsigned long,bool> &flag);
-  
-
   ////////////////////////////////////////////////
   // Static functions
   
@@ -407,17 +374,6 @@ private:
    * @return      True if st1.ratio > st2.ratio
    */
   static bool compareSteinerRatio(const SubST &st1, const SubST &st2);
-
-  /**
-   * Compares two SubST trees with respect to the Steiner ratio,
-   * calculated using the B-tree (b-tree lengths are stored in SubST).
-   *
-   * @param st1   The first SubST.
-   * @param st2   The second SubST.
-   *
-   * @return      True if st1.ratio > st2.ratio
-   */
-  static bool compareSteinerRatioBTree(const SubST &st1, const SubST &st2);
 
   /**
    * Compares two edges with respect to the length.

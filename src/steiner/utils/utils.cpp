@@ -70,35 +70,6 @@ double Utils::frand() {
   return (double)rand() / RAND_MAX;
 }
 
-void bDist(std::unordered_map<long, double> &b_tree,
-	   std::vector<Edge> &edges, int org, int cur, int prev, double longest) {
-  unsigned int i;
-  unsigned long key = Edge::key(org,cur);
-  if(org != cur && b_tree.find(key) != b_tree.end()) {
-    if(longest > b_tree[key])
-      b_tree[key] = longest;
-  }
-  for(i = 0; i < edges.size(); i++) {
-    double l = edges[i].length > longest ? edges[i].length : longest;
-    if(edges[i].i0 == cur && edges[i].i1 != prev)
-      bDist(b_tree, edges, org, edges[i].i1, edges[i].i0, l);
-    else if(edges[i].i1 == cur && edges[i].i0 != prev)
-      bDist(b_tree, edges, org, edges[i].i0, edges[i].i1, l);
-  }
-}
-
-void Utils::constructBottleneckGraph(std::unordered_map<long, double> &b_tree,
-				     Graph &del, Graph &mst) {
-  unsigned int i;
-
-  for(i = 0; i < del.getEdgesPtr()->size(); i++)
-    b_tree[(*del.getEdgesPtr())[i].key()] = -1.0;
-  
-  std::vector<Edge> *edges = mst.getEdgesPtr();
-  for(i = 0; i < mst.getPointsPtr()->size(); i++)
-    bDist(b_tree, *edges, i, i, -1, -1.0);
-}
-
 void validateRec(std::vector<Edge> &edges, std::vector<int> &pf,
 		 std::vector<int> &ef, int cur, int prev) {
   unsigned int i;

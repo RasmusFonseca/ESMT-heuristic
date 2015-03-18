@@ -54,9 +54,12 @@ int main(int argc, char *argv[]) {
 
     return 0;
   }
-  else if(std::string("fulltest").compare(0, 20, argv[1]) == 0) {
+  else if(std::string("counttest").compare(0, 20, argv[1]) == 0) {
+    if(argc != 5)
+      usage();
+    int d = atoi(argv[2]), n = atoi(argv[3]), seed = atoi(argv[4]);
     Test test;
-    test.doTestESMTSpecial();
+    test.doTestESMTSpecial(d, n, seed);
     return 0;
   }
   else {
@@ -221,6 +224,7 @@ void usage() {
 	    << " esmt [options] <points>" << std::endl
 	    << " test esmt [options] <points>" << std::endl
 	    << " test sgh [options] <points>" << std::endl
+	    << " counttest <dimension> <no of points> <seed>" << std::endl
 	    << std::endl
 	    << " options:" << std::endl
 	    << "   -v           Verbose" << std::endl

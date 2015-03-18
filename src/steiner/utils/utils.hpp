@@ -32,19 +32,6 @@ namespace Utils {
   double frand();
 
   /**
-   * Constructs a bottleneck-graph in b_tree. Only edges from del will appear
-   * in b_tree. Bottlenck-graph will be constructed from mst.
-   *
-   * @param b_graph  A hashmap, which will be filled with the bottleneck edges from
-   *                 del.
-   * @param del      A graph containing the edges to be added to the b-graph
-   *                 (e.g. Delaunay). mst must be a subset of del.
-   * @param mst      The MST for the gived del-graph.
-   */
-  void constructBottleneckGraph(std::unordered_map<long, double> &b_graph,
-				Graph &del, Graph &mst);
-  
-  /**
    * Validates a SteinerTree
    *
    * @param st   The SteinerTree to be validated (|S|<|N|-1, connected, etc.).
