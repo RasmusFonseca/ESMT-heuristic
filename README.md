@@ -14,6 +14,7 @@ $ cd src
 $ make
 ```
 
+The executable depends on having the qdelaunay executable from [qhull](http://www.qhull.org) in the systems PATH. Theres an easy-to-follow explanation [in the wiki](http://github.com/RasmusFonseca/ESMT-heuristic/wiki/qdelaunay).
 
 # Usage
 

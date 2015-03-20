@@ -119,6 +119,12 @@ namespace Utils {
     std::vector<Simplex>      simplices;
     /** The list of point handles */
     std::vector<PointHandle>  point_handles;
+
+	/** qdelaunay input file name */
+	std::string qdelaunay_input;
+
+	/** qdelaunay output file name */
+	std::string qdelaunay_output;
   };
 
 }
