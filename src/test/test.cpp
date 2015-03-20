@@ -198,75 +198,67 @@ void Test::doTestESMT(bool verbose) {
   printHeader(text);  
 }
 
-void Test::doTestESMTSpecial(bool verbose) {
-  unsigned int i, j, sum, from, to;
+void Test::doTestESMTSpecial(int d, int n, int seed, bool verbose) {
+  unsigned int i, j, sum;
   assert(this->sh);
 
   std::string text = "Special test of ESMT heuristic";
   printHeader(text);
 
   std::cout << std::endl << " * Running test *" << std::endl;
-  
-  std::vector<ESMT*> esmt;
 
-  from = 3;
-  to   = 3;
+  Generator::setSeed(seed);
+  IterativeConcat ic(d);
+  std::vector<Point> points = Generator::randomFloatPoints(Point(d,100), Point(d,100), n);
+  Utils::Delaunay del(points);
+  ESMT esmt(del, &ic, true, true, false, verbose);
 
-  Generator::setSeed(1);
-  for(i = from; i <= to; i++) {
-    IterativeConcat ic(i);
-    std::vector<Point> points = Generator::randomFloatPoints(Point(i,100), Point(i,100), 10000);
-    esmt.push_back(new ESMT(points, &ic, true, true, false, verbose));
-  }
+  std::vector<unsigned int> faces = del.getNumberOfFaces();
 
   std::cout << std::endl << " * Test done *" << std::endl << std::endl
-	    << "  Delaunay simplices: " << std::endl
-	    << "D;No" << std::endl;
-
-  for(i = from; i <= to; i++) {
-    std::cout << i << ";" << esmt[i-from]->getStats()->no_of_simplices << std::endl;
+	    << "  Delaunay faces: " << std::endl
+	    << "K;No;Accum" << std::endl;
+  sum = 0;
+  for(i = 2; i < faces.size(); i++) {
+    sum += faces[i];
+    std::cout << i << ";" << faces[i] << ";" << sum << std::endl;
   }
   
-  std::cout << std::endl << "  Covered faces: " << std::endl
-	    << "D;Size;No;Accum" << std::endl;
-  
-  for(i = from; i <= to; i++) {
-    sum = 0;
-    for(j = 0; j < esmt[i-from]->getStats()->covered_faces.size(); j++) {
-      unsigned int no = esmt[i-from]->getStats()->covered_faces[j];
-      if(no != 0) {
-	sum += no;
-	std::cout << i << ";" << j << ";" << no << ";" << sum << std::endl;
-      }
+  std::cout << std::endl << "  Covered faces (and sausages): " << std::endl
+	    << "K;No;Accum;Frac" << std::endl;
+  sum = 0;
+  for(j = 0; j < esmt.getStats()->covered_faces.size(); j++) {
+    unsigned int no = esmt.getStats()->covered_faces[j];
+    if(no != 0) {
+      sum += no;
+      std::cout << j << ";" << no << ";" << sum << ";";
+      if(j < faces.size())
+	std::cout << (float)no / (float)faces[j];
+      else 
+	std::cout << "-";
+      std::cout << std::endl;
     }
   }
   
   std::cout << std::endl << "  Added sub-trees:" << std::endl
-	    << "D;Size;No;Accum" << std::endl;
-  for(i = from; i <= to; i++) {
-    sum = 0;
-    for(j = 0; j < esmt[i-from]->getStats()->added_sub_trees.size(); j++) {
-      unsigned int no = esmt[i-from]->getStats()->added_sub_trees[j];
-      if(no != 0) {
-	sum += no;
-	std::cout << i << ";" << j << ";" << no << ";" << sum << std::endl;
-      }
+	    << "K;No;Accum" << std::endl;
+  sum = 0;
+  for(j = 0; j < esmt.getStats()->added_sub_trees.size(); j++) {
+    unsigned int no = esmt.getStats()->added_sub_trees[j];
+    if(no != 0) {
+      sum += no;
+      std::cout << j << ";" << no << ";" << sum << std::endl;
     }
   }
 
   std::cout << std::endl << "  Steiner points:" << std::endl
-	    << "D;Before;After;Added;Overlapping" << std::endl;
-  for(i = from; i <= to; i++) {
-    std::cout << i << ";" << esmt[i-from]->getStats()->no_of_sp << ";"
-	      << esmt[i-from]->getStats()->no_of_sp_post_optimisation << ";"
-	      << (esmt[i-from]->getStats()->no_of_sp_post_optimisation-esmt[i-from]->getStats()->no_of_sp)
-	      << ";" << esmt[i-from]->getStats()->no_of_sp_overlapping << std::endl;
-  }
-
+	    << "Before;After;Added;Overlapping" << std::endl;
+  std::cout << esmt.getStats()->no_of_sp << ";"
+	    << esmt.getStats()->no_of_sp_post_optimisation << ";"
+	    << (esmt.getStats()->no_of_sp_post_optimisation-esmt.getStats()->no_of_sp)
+	    << ";" << esmt.getStats()->no_of_sp_overlapping << std::endl;
+  
   std::cout << std::endl;
-
-  for(i = 0; i < esmt.size(); i++)
-    delete esmt[i];
 
   text = "End of test";
   printHeader(text); 
@@ -316,7 +308,8 @@ void Test::ESMTTest(int i, bool verbose, bool method_verbose) {
   double start_time, end_time;
   int iterations = 0;
   std::vector<Point> points = this->sets[i].points;
-  ESMT *esmt = NULL;;
+  ESMT *esmt = NULL;
+  std::vector<unsigned int> faces;
   if(!this->do_delaunay) {
     Utils::Delaunay del(points);
     start_time = getTime();
@@ -488,7 +481,7 @@ void Test::createDatFile(const std::string &fileName) {
   file.open (fileName.c_str());
   std::string sep = ";";
   int no_of_tests = this->results.size();
-  file << "% Test data for BSc project" << std::endl
+  file << "% Test results - ESMT heuristic" << std::endl
        << "% Seed: " << this->seed << std::endl
        << "% Subgraph alg: " << this->sh_name << std::endl
        << "% Loop_time = " << this->loop_time << std::endl

@@ -55,7 +55,7 @@ public:
   
   void doTestSubgraphAlgorithm(bool verbose = true);
   void doTestESMT(bool verbose = true);
-  void doTestESMTSpecial(bool verbose = true);
+  void doTestESMTSpecial(int d, int n, int seed, bool verbose = true);
   
   void createDatFile(const std::string &fileName);  
 

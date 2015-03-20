@@ -46,6 +46,22 @@ std::vector<Utils::Delaunay::PointHandle> *Utils::Delaunay::getPointHandles() {
 	return &this->point_handles;
 }
 
+/* Implementation of getNumberOfFaces() */
+std::vector<unsigned int> Utils::Delaunay::getNumberOfFaces() {
+  unsigned int dim = this->points[0].dim();
+  std::vector<unsigned int> cur_set, result(dim+2, 0);
+  std::unordered_map<unsigned long, bool> flag;
+  
+  std::vector<Simplex>::iterator sit;
+  for(sit = this->simplices.begin(); sit != this->simplices.end(); sit++)
+    this->findFaces(*sit, cur_set, flag, result);
+  
+  // Simplices
+  result[dim+1] = this->simplices.size();
+
+  return result;
+}
+
 /* Implementation of doDelaunayQHull */
 void Utils::Delaunay::doDelaunayQHull(int d) {
 	doPrepInputQHull(d);
@@ -186,6 +202,38 @@ void Utils::Delaunay::doParseOutputQHull(int d) {
 		outfile.close();
 	}
 }
+
+/* Implementation of findFaces(...) */
+void Utils::Delaunay::findFaces(Simplex &simplex, std::vector<unsigned int> &cur_set,
+				std::unordered_map<unsigned long, bool> &flag,
+				std::vector<unsigned int> &result) {
+  unsigned int i, n, dim = this->points[0].dim();
+  n = cur_set.size();
+  
+  if(n >= 2 && n <= dim) {
+    unsigned int bits = 64 / dim;
+    unsigned long key = 0;
+    
+    for(i = 0; i < n; i++)
+      key += (((unsigned long)cur_set[i]) << (bits*i));
+    
+    if(flag.find(key) == flag.end()) {
+      // Add subset.
+      flag[key] = true;
+      result[n]++;
+    }
+  }
+  int last = n > 0 ? cur_set.back() : -1;
+  for(i = 0; i < simplex.n; i++) {
+    // Add only larger than
+    if(simplex.map[i] > last) {
+      std::vector<unsigned int> new_set = cur_set;
+      new_set.push_back(simplex.map[i]);
+      this->findFaces(simplex, new_set, flag, result);
+    }
+  }
+}
+
 
 //////////////////////////////
 // Struct functions

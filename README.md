@@ -23,6 +23,7 @@ The executable depends on having the qdelaunay executable from [qhull](http://ww
  esmt-heuristic esmt [options] <points>
  esmt-heuristic test esmt [options] <points>
  esmt-heuristic test sgh [options] <points>
+ esmt-heuristic counttest <dimension> <no of points> <seed>
 
  options:
    -v           Verbose

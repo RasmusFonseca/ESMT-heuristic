@@ -88,6 +88,11 @@ namespace Utils {
      */
     std::vector<PointHandle> *getPointHandles();
     
+    /**
+     * Stats: Count all faces
+     */
+    std::vector<unsigned int> getNumberOfFaces();
+
   protected:
   private:
     /**
@@ -114,6 +119,13 @@ namespace Utils {
      * @param d   The dimension.
      */
     void doParseOutputQHull(int d);
+
+    /**
+     * Recursive procedure for finding all faces
+     */
+    void findFaces(Simplex &simplex, std::vector<unsigned int> &cur_set,
+		   std::unordered_map<unsigned long, bool> &flag,
+		   std::vector<unsigned int> &result);
 
     /** The list of simplices */
     std::vector<Simplex>      simplices;
