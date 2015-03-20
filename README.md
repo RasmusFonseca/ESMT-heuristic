@@ -63,6 +63,8 @@ The executable depends on having the qdelaunay executable from [qhull](http://ww
 ```
 
 # Examples
+
+Solve specific instance from STP file in data directory: 
 ```
 $ cd src
 $ ./esmt-heuristic esmt -in ../data/hard_instance/sausage_n16_d3.stp sausage_n16_d3
@@ -70,8 +72,10 @@ Done!
   |MST| = 24.4949
   |SMT| = 20.0392
   Ratio = 0.818097
+```
 
-$ # Time computation of SMT for 10000 random points in 4 dimensions.
+Time the computation of SMT for 10000 random points in 4 dimensions:
+```
 $ time ./esmt-heuristic esmt -g random 4 10000  # 10000 random points in 4 dimensions
 Done!
   |MST| = 140464
@@ -81,8 +85,10 @@ Done!
 real	0m17.459s
 user	0m17.244s
 sys	0m0.158s
+```
 
-$ # 10 random points in 4 dimensions. Print Steiner tree (-pt)
+Print the Steiner tree (-pt argument) for 10 random points in 4 dimensions.
+```
 $ ./esmt-heuristic esmt -g random 4 10 -pt
 ## RESULT ##
 # Terminals
