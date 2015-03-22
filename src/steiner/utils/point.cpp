@@ -144,12 +144,12 @@ Utils::Point operator*(Utils::Point const& b, double const& a) {
   return result;
 }
 
-double const& Utils::Point::operator[](int i) const {
+double const& Utils::Point::operator[](const int i) const {
   assert(i >= 0 && (unsigned int)i < this->_dim);
   return this->_list[i];
 }
 
-double& Utils::Point::operator[](int i) {
+double& Utils::Point::operator[](const int i) {
   assert(i >= 0 && (unsigned int)i < this->_dim);
   return this->_list[i];
 }

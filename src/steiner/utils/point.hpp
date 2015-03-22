@@ -172,7 +172,7 @@ namespace Utils {
      *
      * @return    The value of the (i+1)th coordinate.
      */
-    double const& operator[](int i) const;
+    double const& operator[](const int i) const;
     
     /**
      * Allows for setting coordinates with the [] operator.
@@ -181,7 +181,7 @@ namespace Utils {
      *
      * @return    A reference to the (i+1)th coordinate.
      */
-    double& operator[](int i);
+    double& operator[](const int i);
       
   protected:
     unsigned int _dim;
